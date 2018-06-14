@@ -1,12 +1,14 @@
 package structures;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
 public class Graph<X> {
 	
 	private BitGraph adjMatrix;
-	private ArrayList<X> nodeList;
+	protected ArrayList<X> nodeList;
 	private static final int DEFAULT_CAPACITY = 5;
 	private int size;
 	private int capacity;
@@ -14,11 +16,19 @@ public class Graph<X> {
 	public Graph(int capacity) {
 		this.size = 0;
 		this.capacity = capacity;
+		this.nodeList = new ArrayList<X>();
 		this.adjMatrix = new BitGraph(capacity);
 	}
 	
 	public Graph() {
 		this(DEFAULT_CAPACITY);
+	}
+	
+	public Graph(Graph g) {
+		this.adjMatrix = g.adjMatrix;
+		this.nodeList = g.nodeList;
+		this.size = g.size;
+		this.capacity = g.capacity;
 	}
 	
 	public void addNode(X node) {
@@ -105,5 +115,9 @@ public class Graph<X> {
 			}
 		}
 		throw new NoSuchElementException("Object does not exist in graph");
+	}
+	
+	public Iterator<X> iterator() {
+		return nodeList.iterator();
 	}
 }

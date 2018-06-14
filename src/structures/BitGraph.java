@@ -5,7 +5,8 @@ import java.util.*;
 public class BitGraph {
 	
 	private ArrayList<BitSet> adjMatrix;
-	private static final int DEFAULT_CAPACITY = 5;
+	private static final int DEFAULT_CAPACITY = 128;
+	private static final int DEFAULT_SIZE = 128;
 	private int size;
 	private int capacity;
 	
@@ -14,11 +15,11 @@ public class BitGraph {
 	}
 	
 	public BitGraph(int capacity) {
-		this.size = 0;
+		this.size = DEFAULT_SIZE;
 		this.capacity = capacity;
 		this.adjMatrix = new ArrayList<BitSet>(size);
 		for (int v = 0; v < size; ++v) {
-			adjMatrix.add(new BitSet());
+			adjMatrix.add(new BitSet(DEFAULT_CAPACITY));
 		}
 	}
 	
@@ -41,8 +42,8 @@ public class BitGraph {
 		if (u >= adjMatrix.get(v).size()) {
 			doubleSetSize(v);
 		}
-		adjMatrix.get(v).set(u, 1);
-		adjMatrix.get(u).set(v, 1);
+		adjMatrix.get(v).set(u, true);
+		adjMatrix.get(u).set(v, true);
 	}
 	
 	public void removeEdge(int v, int u) {
@@ -73,4 +74,14 @@ public class BitGraph {
 		return size;
 	}
 	
+	
+	public LinkedList<Integer> getNeighbors(int v) {
+		LinkedList<Integer> neighbors = new LinkedList<Integer>();
+		for (int u = 0; u < adjMatrix.get(v).size(); ++u) {
+			if (adjMatrix.get(v).get(u) == true) {
+				neighbors.add(u);
+			}
+		}
+		return neighbors;
+	}
 }
